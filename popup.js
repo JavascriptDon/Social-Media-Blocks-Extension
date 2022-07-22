@@ -1,5 +1,7 @@
+// ToDo: check for more hosts and set them optional
+
 const generateHTML = (pageName) => {
-    return `<div id="clouds">
+  return `<div id="clouds">
     <div class="cloud x1"></div>
     <div class="cloud x1_5"></div>
     <div class="cloud x2"></div>
@@ -18,10 +20,10 @@ const generateHTML = (pageName) => {
     <img src="https://images.vexels.com/media/users/3/152639/isolated/preview/506b575739e90613428cdb399175e2c8-space-astronaut-cartoon-by-vexels.png" alt="" class="src">
   </div>
   `;
-  };
-  
-  const generateSTYLING = () => {
-    return `<style>
+};
+
+const generateSTYLING = () => {
+  return `<style>
      body {
       margin: 0;
       padding: 0;
@@ -269,48 +271,75 @@ const generateHTML = (pageName) => {
       }
     }  
      </style>`;
-  };
-  
-  switch (window.location.hostname){
-    case "www.youtube.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('YOUTUBE');
-        break;
-    case "www.facebook.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('FACEBOOK');  
-        break;
-    case "www.netflix.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('NETFLIX'); 
-        break;
-    case "www.tiktok.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('TIKTOK');
-        break;
-    case "www.discord.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('DISCORD');
-        break;
-    case "www.instagram.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('INSTAGRAM');
-        break;
-    case "web.whatsapp.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('WHATSAPP');
-        break;
-    case "www.linkedin.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('LINKEDIN');
-        break;
-    case "www.twitter.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('TWITTER');
-        break;
-    case "www.reddit.com":
-        document.head.innerHTML = generateSTYLING();
-        document.body.innerHTML = generateHTML('REDDIT');
-        break;
-    
-  };
+};
+
+/** @type {Object} */
+const HOSTS = [
+  'www.youtube.com',
+  'www.youtube.com',
+  'www.netflix.com',
+  'www.tiktok.com',
+  'www.instagram.com',
+  'web.whatsapp.com',
+  'www.linkedin.com',
+  'www.twitter.com',
+  'www.reddit.com',
+];
+
+/**
+ * Search for embedded content to hide inside websites
+ */
+const searchForEmbeddedContent = () => {
+  const contextIframes = [].slice.call(document.querySelectorAll('iframe'));
+
+  for (const iframe of contextIframes) {
+    for (const host in HOSTS) {
+      if (iframe.getAttribute('src')?.includes(host)) iframe.style.display = 'none';
+    }
+  }
+};
+
+switch (window.location.hostname) {
+  case 'www.youtube.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('YOUTUBE');
+    break;
+  case 'www.youtube.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('FACEBOOK');
+    break;
+  case 'www.netflix.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('NETFLIX');
+    break;
+  case 'www.tiktok.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('TIKTOK');
+    break;
+  case 'www.discord.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('DISCORD');
+    break;
+  case 'www.instagram.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('INSTAGRAM');
+    break;
+  case 'web.whatsapp.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('WHATSAPP');
+    break;
+  case 'www.linkedin.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('LINKEDIN');
+    break;
+  case 'www.twitter.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('TWITTER');
+    break;
+  case 'www.reddit.com':
+    document.head.innerHTML = generateSTYLING();
+    document.body.innerHTML = generateHTML('REDDIT');
+    break;
+  default:
+    searchForEmbeddedContent();
+}
