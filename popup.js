@@ -100,23 +100,6 @@ const generateSTYLING = () => {
         transform:rotate(45deg);
       }
     }
-    @keyframes starTwinkle{
-      0%{
-         background:rgba(255,255,255,0.4);
-      }
-      25%{
-        background:rgba(255,255,255,0.8);
-      }
-      50%{
-       background:rgba(255,255,255,1);
-      }
-      75%{
-        background:rgba(255,255,255,0.8);
-      }
-      100%{
-        background:rgba(255,255,255,0.4);
-      }
-    }
     
     .cloud {
       width: 350px;
