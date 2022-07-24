@@ -1,4 +1,4 @@
-// ToDo: check for more hosts and set them optional
+// TODO FUTURE: check for more hosts and set them optional
 
 import {
   generateHTML,

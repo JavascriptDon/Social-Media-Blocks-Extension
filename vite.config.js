@@ -1,16 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
-module.exports = defineConfig({
-  resolve: {
-    alias: {
-      "root": resolve(__dirname),
-      "@": resolve(__dirname, "src")
-    }
-  },
-  esbuild: {
-    keepNames: true
-  },
+export default defineConfig({
   build: {
     rollupOptions: {
       input: {

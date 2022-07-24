@@ -2,8 +2,9 @@
   "name": "social-media-blocks-extension",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build-extension": "npm run build && cp manifest.json dist/ && cp -R assets/images dist/assets"
