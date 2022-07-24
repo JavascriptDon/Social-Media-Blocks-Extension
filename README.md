@@ -3,6 +3,8 @@ Social Media Blocks (1.0.2)
 
 ![404](https://user-images.githubusercontent.com/101202952/180646836-c7affe54-7709-43b3-bb22-b1c3ed708897.gif)
 
+## Purpose Of Project 
+
 This is a Google Chrome Extension which blocks social media sites like Twitter: Facebook, Instagram, LinkedIn, WhatsApp, Reddit etc.. 👇
 
 ## Prerequisites
