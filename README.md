@@ -57,7 +57,3 @@ This project is under the MIT License (MIT). See the LICENSE for more informatio
 ## 💪 Thanks to all Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=javascriptdon/social-media-blocks-extension)](https://github.com/javascriptdon/social-media-blocks-extension/graphs/contributors)
-
-## 🙏 Support
-
-This project needs a ⭐️ from you. Don't forget to leave a star ⭐️
