@@ -1,4 +1,6 @@
+
 import '../assets/css/style.css';
+import 'animate.css';
 import './popup.ts';
 
 // Templates:

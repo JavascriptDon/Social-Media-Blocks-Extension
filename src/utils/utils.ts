@@ -298,10 +298,11 @@ export function generateSTYLING(): void {
  * Fetch the extensions current vesrion.
  */
 export function initializeExtensionVersionNumber() {
-  const version = chrome.runtime.getManifest().version;
+  const version = chrome?.runtime?.getManifest()?.version;
+  if (!version) return document.getElementById('extension-version')!.innerHTML = 'dev mode'; 
   document.getElementById('extension-version')!.innerHTML = 'v' + version;
 
-  fetch('https://raw.githubusercontent.com/JavascriptDon/Social-Media-Blocks-Extension/main/manifest.json')
+  return fetch('https://raw.githubusercontent.com/JavascriptDon/Social-Media-Blocks-Extension/main/manifest.json')
     .then((response) => response.json())
     .then((json) => {
       if (compareVersions(json.version, version)) {
@@ -320,12 +321,13 @@ export function initializeExtensionVersionNumber() {
  * @returns whether or not the current version is outdated
  */
 function compareVersions(latestVersion: string, currentVersion: string): boolean {
-  let latestarr = latestVersion.split('.');
-  let currentarr = currentVersion.split('.');
+  let latestExtVersion = latestVersion?.split('.');
+  let currentExtVersion = currentVersion?.split('.');
   let outdated = false;
-  for (let i = 0; i < Math.max(latestarr.length, currentarr.length); i++) {
-    let latest = i < latestarr.length ? parseInt(latestarr[i]) : 0;
-    let current = i < currentarr.length ? parseInt(currentarr[i]) : 0;
+  if (!latestExtVersion || !currentExtVersion) return false;
+  for (let i = 0; i < Math.max(latestExtVersion.length, currentExtVersion.length); i++) {
+    let latest = i < latestExtVersion.length ? parseInt(latestExtVersion[i]) : 0;
+    let current = i < currentExtVersion.length ? parseInt(currentExtVersion[i]) : 0;
     if (latest > current) {
       outdated = true;
       break;

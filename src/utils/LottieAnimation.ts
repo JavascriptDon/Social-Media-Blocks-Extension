@@ -21,4 +21,13 @@ export default class LottieAnimation {
     return this.animationInstance;
   }
 
+  /**
+   * Set animation speed
+   * 
+   * @param {number} speed
+   */
+  set animationSpeed(speed: number) {
+    this.animationInstance.setSpeed(speed);
+  }
+
 }

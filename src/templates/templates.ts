@@ -51,7 +51,7 @@ export default Object.freeze({
       </div>
       </div>
       <div id="modal-footer">
-      <a href="https://github.com/JavascriptDon/Social-Media-Blocks-Extension" target="_blank"><p>MIT © HR</p></a>
+      <a href="https://github.com/JavascriptDon/Social-Media-Blocks-Extension" target="_blank"><p id="extension-acknowledgements">MIT © HR & Community</p></a>
       
       <!-- extension version number: -->
       <div id="extension">

@@ -8,7 +8,9 @@ import {
 import {
   config,
 } from './utils/constants';
-import { initializeExtensionVersionNumber } from './utils/utils';
+import {
+  initializeExtensionVersionNumber,
+} from './utils/utils';
 
 import LottieAnimation from './utils/LottieAnimation';
 import settingsAnimationData from '../assets/lottie-animations/settings.json';
@@ -41,28 +43,53 @@ function blockSocialMediaSites(): void {
 window.addEventListener('DOMContentLoaded', () => {
   initializeExtensionVersionNumber();
   // Advanced Toggle
-  const advancedToggle = document.getElementById('settingsToggle');
+  const [
+    advancedToggle,
+    extensionElement,
+    advancedSettings,
+    extensionAcknowledgements,
+  ]: Array<HTMLElement> = [
+    <HTMLElement>document.getElementById('settingsToggle'),
+    <HTMLElement>document.getElementById('extension'),
+    <HTMLElement>document.getElementById('settingsDialog'),
+    <HTMLElement>document.getElementById('extension-acknowledgements'),
+  ];
   advancedToggle!.addEventListener('click', () => {
-    const advancedSettings = document.getElementById('settingsDialog');
-    if (config.advanced) {
+    if (config.toggleSettings) {
+      extensionElement!.classList.add('animate__animated', 'animate__fadeInRight');
+      extensionAcknowledgements!.classList.add('animate__animated', 'animate__fadeInLeft');
+      extensionElement!.style.setProperty('z-index', '3');
+      advancedSettings!.classList.add('animate__animated', 'animate__fadeOutRight');
       advancedSettings!.style.transform = 'scale(1.1)';
       advancedSettings!.style.pointerEvents = 'none';
       advancedSettings!.style.opacity = '0';
-      advancedToggle!.innerHTML = config.showAdvancedMessage;
-      config.advanced = false;
+      advancedToggle!.innerHTML = config.showSettingsGearIcon;
+      config.toggleSettings = false;
     } else {
+      extensionElement!.classList.add('animate__animated', 'animate__fadeOutRight');
+      extensionAcknowledgements!.classList.add('animate__animated', 'animate__fadeOutLeft');
+      advancedSettings!.classList.add('animate__animated', 'animate__fadeInLeft');
+      setTimeout( () => {
+        extensionElement!.style.setProperty('z-index', '-1');
+      }, 1000);
       advancedSettings!.style.transform = 'scale(1)';
       advancedSettings!.style.pointerEvents = 'auto';
       advancedSettings!.style.opacity = '1';
-      advancedToggle!.innerHTML = config.hideAdvancedMessage;
-      config.advanced = true;
+      advancedToggle!.innerHTML = config.hideSettingsGearIcon;
+      config.toggleSettings = true;
     }
+    advancedSettings!.addEventListener('animationend', () => {
+      advancedSettings!.className = '';
+      extensionElement!.className = ''
+      extensionAcknowledgements!.className = '';
+    });
   });
   const settingsAnimationWrapper: HTMLDivElement = <HTMLDivElement>document.getElementById('settings-animation');
-  new LottieAnimation({
+  const animationInstance = new LottieAnimation({
     wrapper: settingsAnimationWrapper,
     animationData: settingsAnimationData,
   });
+  animationInstance.animationSpeed = 1.5;
 });
 
 blockSocialMediaSites();
