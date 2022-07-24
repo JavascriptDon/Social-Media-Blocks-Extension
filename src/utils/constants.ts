@@ -1,5 +1,5 @@
 /**
- * An array of all the hosts we are going to block.
+ * An array of all the hostnames that are blocked.
  */
 export default Object.freeze([
   "www.youtube.com",

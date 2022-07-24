@@ -1,7 +1,7 @@
 import HOSTS from './constants';
 
 /**
- * Search for embedded content to hide inside websites and if any are found, hide them.
+ * Search for embedded content to hide inside websites.
  */
 export function searchForEmbeddedContent(): void {
   const contextIframes: Array<HTMLIFrameElement> = [].slice.call(
