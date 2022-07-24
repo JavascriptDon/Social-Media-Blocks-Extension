@@ -1,6 +1,6 @@
 ## 💥 How to Contribute
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/EddieHubCommunity/LinkFree/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/JavascriptDon/Social-Media-Blocks-Extension/pulls)
 
 - Take a look at the existing [Issues](https://github.com/JavascriptDon/Social-Media-Blocks-Extension/issues) or [create a new issue](https://github.com/JavascriptDon/Social-Media-Blocks-Extension/issues/new/choose)!
 - [Fork the Repo](https://github.com/JavascriptDon/Social-Media-Blocks-Extension/fork). Then, create a branch for any issue that you are working on. Finally, commit your work.
