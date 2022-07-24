@@ -1,4 +1,15 @@
-/*Just here for aesthetics!*/
+/* Root CSS variables */
+:root {
+  --primary: #cc2929;
+  --accent: #581111;
+
+  --background: #111;
+  --secondary: #272727;
+  --tertiary: #424242;
+  --lightGrey: #999;
+  --white: #fff;
+}
+
 html,
 body {
   font-family: 'Poppins', sans-serif;
@@ -7,6 +18,8 @@ body {
   min-height: 180px;
   padding: 0;
   width: 384px;
+  color: var(--lightGrey);
+  background-color: var(--background);
 }
 
 h1 {
@@ -14,7 +27,6 @@ h1 {
   font-size: 22px;
   font-weight: 400;
   margin: 0;
-  color: #000;
   text-align: center;
 }
 
@@ -31,15 +43,17 @@ p {
 }
 
 .modal-header {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  border-bottom: 0.5px solid #231955;
+  border-bottom: 0.5px solid var(--lightGrey);
 }
 
 .modal-content {
   padding: 0 22px;
 }
 .modal-icons {
-  border-top: 0.5px solid #231955;
+  border-top: 0.5px solid var(--lightGrey);
   height: 50px;
   width: 100%;
 }
@@ -53,8 +67,8 @@ p {
   margin-right: 12px;
 }
 
-.version {
-  color: #444;
+.ext-version {
+  color: var(--lightGrey);
   font-size: 18px;
 }
 
@@ -76,13 +90,99 @@ a:visited {
 }
 
 #modal-footer {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--lightGrey);
   font-size: 15px;
   font-weight: bold;
   text-align: center;
   margin-top: 180px;
+  border-radius: 5px;
 }
 
 #modal-footer a {
-  color: #ffffff;
+  color: var(--primary);
+}
+
+#settingsToggle {
+  background: none;
+  box-shadow: none;
+  color: var(--lightGrey);
+  padding: 2px;
+  z-index: 69;
+  height: 2rem;
+  width: 2rem;
+  border: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+#settingsToggle:hover {
+  color: var(--white);
+  transform: rotate(-90deg);
+  cursor: pointer;
+}
+
+#settingsToggle:active {
+  transform: scale(1.5);
+}
+
+#settingsDialog {
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  transform: scale(1.1);
+  position: fixed;
+  background: var(--background);
+  top: 10px;
+  left: -2px;
+  width: 346px;
+  height: 317px;
+  border: 2px solid var(--secondary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+#settingsLegend {
+  color: var(--tertiary) !important;
+  /* margin: auto;
+  padding: .25rem .5rem;
+  border-radius: .25rem;
+  border: .25rem solid var(--secondary); */
+}
+
+#social-media-blocker-settings-header {
+  text-align: center;
+  font-style: italic;
+}
+
+#settings-animation {
+  position: absolute;
+  top: 0;
+  left: -7px;
+}
+
+#extension-version {
+  padding: 0.25rem 0.5rem;
+}
+
+#extension-update {
+  cursor: pointer;
+  color: var(--white);
+  text-decoration: none;
+  background: var(--primary);
+  border-radius: 0.25rem;
+}
+#extension-update:hover {
+  text-decoration: underline;
+}
+
+#extension {
+  color: var(--primary);
+  padding: 0.25rem 0;
+  z-index: 69;
+  position: fixed;
+  background: var(--lightGrey);
+  margin: 0;
+  bottom: 32px;
+  right: 0;
+  border-radius: 0.25rem;
 }
