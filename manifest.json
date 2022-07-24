@@ -6,7 +6,7 @@
   "icons": { "128": "./assets/images/logo128.png" },
   "action": {
     "default_icon": "./assets/images/logo16.png",
-    "default_popup": "./popup.html"
+    "default_popup": "index.html"
   },
   "content_scripts": [
     {
