@@ -1,4 +1,4 @@
-import HOSTS from './constants';
+import { HOSTS } from './constants';
 
 /**
  * Search for embedded content to hide inside websites.
@@ -292,4 +292,49 @@ export function generateSTYLING(): void {
 
   style.appendChild(document.createTextNode(css));
   head.appendChild(style);
+}
+
+/**
+ * Fetch the extensions current vesrion.
+ */
+export function initializeExtensionVersionNumber() {
+  const version = chrome?.runtime?.getManifest()?.version;
+  if (!version) return document.getElementById('extension-version')!.innerHTML = 'dev mode'; 
+  document.getElementById('extension-version')!.innerHTML = 'v' + version;
+
+  return fetch('https://raw.githubusercontent.com/JavascriptDon/Social-Media-Blocks-Extension/main/manifest.json')
+    .then((response) => response.json())
+    .then((json) => {
+      if (compareVersions(json.version, version)) {
+        document.getElementById('extension-update')!.innerHTML = json.version;
+        document.getElementById('extension-update')!.style.padding = '.25rem .5rem';
+      }
+    });
+  // .catch(console.error);
+}
+
+/**
+ * Compare version from the manifest.json file.
+ * 
+ * @param latestVersion
+ * @param currentVersion 
+ * @returns whether or not the current version is outdated
+ */
+function compareVersions(latestVersion: string, currentVersion: string): boolean {
+  let latestExtVersion = latestVersion?.split('.');
+  let currentExtVersion = currentVersion?.split('.');
+  let outdated = false;
+  if (!latestExtVersion || !currentExtVersion) return false;
+  for (let i = 0; i < Math.max(latestExtVersion.length, currentExtVersion.length); i++) {
+    let latest = i < latestExtVersion.length ? parseInt(latestExtVersion[i]) : 0;
+    let current = i < currentExtVersion.length ? parseInt(currentExtVersion[i]) : 0;
+    if (latest > current) {
+      outdated = true;
+      break;
+    } else if (latest < current) {
+      outdated = false;
+      break;
+    }
+  }
+  return outdated;
 }

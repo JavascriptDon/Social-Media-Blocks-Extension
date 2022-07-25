@@ -1,4 +1,4 @@
-Social Media Blocks (1.0.2)
+Social Media Blocks (1.0.3)
 === 
 
 - This is a Google Chrome Extension which blocks social media sites like Twitter: Facebook, Instagram, LinkedIn, WhatsApp, Reddit etc..
