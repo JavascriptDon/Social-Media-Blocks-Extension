@@ -45,9 +45,9 @@ Contributions are always welcome...
 
  - Fork the repository
  - Improve current program by
- - improving functionality
- - adding a new feature
- - bug fixes
+ - Improving functionality
+ - Adding a new feature
+ - Bug fixes
  - Push your work and Create a Pull Request
  
 ## 🛡️ License
