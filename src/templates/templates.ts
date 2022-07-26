@@ -45,8 +45,8 @@ export default Object.freeze({
           </li>
           <li> Go in to Google Chrome Extensions and turn Developer Mode on.</li>
           <li> Click on "Load Unpacked."</li>
-          <li>Select folder which contains content of this repos.</li>
-          <li>Click the switch button to turn extension on and it should work.</li>
+          <li> Select folder which contains content of this repos.</li>
+          <li> Click the switch button to turn extension on and it should work.</li>
         </ul>
       </div>
       </div>
