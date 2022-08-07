@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Social Media Blocks",
+  "description": "Developers don't talk much. Their code does all the talking. So here's a google chrome extension for developers that want to block big social media websites like Twitter: Facebook, Instagram, LinkedIn, WhatsApp, Reddit etc. Add this extension into your browser and achieve better productivity.",
+  "version": "1.0.3",
+  "icons": { "128": "./assets/images/logo128.png" },
+  "action": {
+    "default_icon": "./assets/images/logo16.png",
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["popup.js"],
+      "all_frames": true
+    }
+  ],
+  "permissions": ["activeTab"]
+}

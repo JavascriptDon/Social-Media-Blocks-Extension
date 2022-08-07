@@ -1,0 +1,21 @@
+{
+  "name": "social-media-blocks-extension",
+  "private": "false",
+  "version": "1.0.2",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "build-extension": "npm run build && cp manifest.json dist/ && cp -R assets/images dist/assets"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.193",
+    "typescript": "^4.6.4",
+    "vite": "^3.0.0"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "lottie-web": "^5.9.6"
+  }
+}
