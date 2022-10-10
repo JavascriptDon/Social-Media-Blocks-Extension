@@ -1,0 +1,87 @@
+/*Just here for aesthetics!*/
+html,body{
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin: 0px;
+    min-height: 180px;
+    padding: 0;
+    width: 384px;
+}
+
+h1{
+    font-family: "Open Sans", sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+    color: #000;
+    text-align: center;
+}
+
+h3{
+    font-size: 15px;
+}
+
+img{
+    width: 30px;
+}
+
+p{
+    text-align: center;
+}
+
+.modal-header{
+    align-items: center;
+    border-bottom: 0.5px solid #231955;
+}
+
+.modal-content{
+    padding: 0 22px;
+}
+.modal-icons{
+    border-top: 0.5px solid #231955;
+    height: 50px;
+    width: 100%;
+}
+
+.logo{
+    padding: 16px;
+}
+
+.logo-icon{
+    vertical-align: text-bottom;
+    margin-right: 12px;
+}
+
+.version{
+    color: #444;
+    font-size: 18px;
+}
+
+a:link, a:visited{
+    color: #231955;
+    outline: 0;
+    text-decoration: none;
+}
+
+
+.container{
+    display: block;
+    justify-content: space-between;
+    padding: 10px 22px;
+}
+
+.container a{
+    color: #3330E4;
+}
+
+#modal-footer{
+    background-color: rgba(0,0,0,0.6);
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 180px;
+  }
+
+  #modal-footer a{
+    color: #ffffff;
+  }
