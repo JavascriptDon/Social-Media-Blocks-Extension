@@ -262,6 +262,10 @@ switch (window.location.hostname){
       document.head.innerHTML = generateSTYLING();
       document.body.innerHTML = generateHTML('FACEBOOK');  
       break;
+  case "web.facebook.com":
+        document.head.innerHTML = generateSTYLING();
+        document.body.innerHTML = generateHTML('FACEBOOK');  
+        break;
   case "www.netflix.com":
       document.head.innerHTML = generateSTYLING();
       document.body.innerHTML = generateHTML('NETFLIX'); 
