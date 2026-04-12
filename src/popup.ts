@@ -1,5 +1,3 @@
-// TODO FUTURE: check for more hosts and set them optional
-
 import {
   generateHTML,
   generateSTYLING,
@@ -12,37 +10,61 @@ import {
   initializeExtensionVersionNumber,
 } from './utils/utils';
 
-import LottieAnimation from './utils/LottieAnimation';
-import settingsAnimationData from '../assets/lottie-animations/settings.json';
+import { renderSettings, loadSettings } from './settings/settings';
 
-function blockSocialMediaSites(): void {
-  const hostname: string = new URL(window.location.href).hostname.replace('.com', '').replace('www.', '').toLowerCase();
-  if (
-    [
-      'youtube',
-      'facebook',
-      'netflix',
-      'tiktok',
-      'discord',
-      'instagram',
-      'whatsapp',
-      'web.whatsapp',
-      'linkedin',
-      'twitter',
-      'reddit',
-      'redditmeda',
-    ].includes(hostname)
-  ) {
-    generateSTYLING();
-    document.body.innerHTML = generateHTML(hostname.toUpperCase());
-  } else {
+const BLOCKED_HOSTS = [
+  'youtube',
+  'facebook',
+  'netflix',
+  'tiktok',
+  'discord',
+  'instagram',
+  'whatsapp',
+  'web.whatsapp',
+  'linkedin',
+  'twitter',
+  'reddit',
+  'redditmeda',
+];
+
+async function blockSocialMediaSites(): Promise<void> {
+  const hostname: string = new URL(window.location.href).hostname
+    .replace('.com', '')
+    .replace('www.', '')
+    .toLowerCase();
+
+  if (!BLOCKED_HOSTS.includes(hostname)) {
     searchForEmbeddedContent();
+    return;
   }
+
+  const settings = await loadSettings();
+
+  if (!settings.masterEnabled) return;
+
+  const siteKey = hostname.replace('web.', '');
+  if (settings[siteKey] === false) return;
+
+  if (settings.scheduleEnabled) {
+    const now = new Date();
+    const [startH, startM] = (settings.scheduleStart as string).split(':').map(Number);
+    const [endH, endM] = (settings.scheduleEnd as string).split(':').map(Number);
+    const nowSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const startSeconds = startH * 3600 + startM * 60;
+    const endSeconds = endH * 3600 + endM * 60;
+
+    if (nowSeconds < startSeconds || nowSeconds >= endSeconds) return;
+
+    const msUntilEnd = (endSeconds - nowSeconds) * 1000;
+    setTimeout(() => window.location.reload(), msUntilEnd);
+  }
+
+  generateSTYLING();
+  document.body.innerHTML = generateHTML(hostname.toUpperCase());
 }
 
 window.addEventListener('DOMContentLoaded', () => {
   initializeExtensionVersionNumber();
-  // Advanced Toggle
   const [
     advancedToggle,
     extensionElement,
@@ -84,12 +106,8 @@ window.addEventListener('DOMContentLoaded', () => {
       extensionAcknowledgements!.className = '';
     });
   });
-  const settingsAnimationWrapper: HTMLDivElement = <HTMLDivElement>document.getElementById('settings-animation');
-  const animationInstance = new LottieAnimation({
-    wrapper: settingsAnimationWrapper,
-    animationData: settingsAnimationData,
-  });
-  animationInstance.animationSpeed = 1.5;
+
+  renderSettings();
 });
 
 blockSocialMediaSites();

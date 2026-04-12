@@ -2,7 +2,7 @@
 import '../assets/css/style.css';
 import 'animate.css';
 import './popup.ts';
-
+import './settings/settings.ts';
 // Templates:
 import PROJECT_TEMPLATES from '../src/templates/templates';
 // Mount
