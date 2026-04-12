@@ -1,4 +1,4 @@
-Social Media Blocks (1.0.3)
+Social Media Blocks (2.0.0)
 === 
 
 - This is a Google Chrome Extension which blocks social media sites like Twitter: Facebook, Instagram, LinkedIn, WhatsApp, Reddit etc..
@@ -7,9 +7,9 @@ Social Media Blocks (1.0.3)
 ![404](https://user-images.githubusercontent.com/101202952/180646836-c7affe54-7709-43b3-bb22-b1c3ed708897.gif)
 
 ## 👇 Prerequisites
-Vite requires Node.js version 14.18+, 16+. 
+Built with Vite and requires Node.js 18+.
 
-You will need [Node.js](https://nodejs.org) version 14.18+, 16+ installed on your system.
+You will need [Node.js](https://nodejs.org) version 18+, 20 or 22 installed on your system.
 - This is due to using [Vite](https://vitejs.dev/)
 
 
