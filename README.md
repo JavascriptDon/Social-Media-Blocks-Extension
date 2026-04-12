@@ -1,4 +1,4 @@
-Social Media Blocks (1.0.3)
+Social Media Blocks 
 === 
 
 - This is a Google Chrome Extension which blocks social media sites like Twitter: Facebook, Instagram, LinkedIn, WhatsApp, Reddit etc..
@@ -6,38 +6,24 @@ Social Media Blocks (1.0.3)
 
 ![404](https://user-images.githubusercontent.com/101202952/180646836-c7affe54-7709-43b3-bb22-b1c3ed708897.gif)
 
-## 👇 Prerequisites
-Vite requires Node.js version 14.18+, 16+. 
+## 👇 Branch Structure
 
-You will need [Node.js](https://nodejs.org) version 14.18+, 16+ installed on your system.
-- This is due to using [Vite](https://vitejs.dev/)
+This repository uses two branches:
+
+- [main](https://github.com/JavascriptDon/Social-Media-Blocks-Extension/tree/main) — minimal Chrome extension (manifest, popup, assets)
+- [master](https://github.com/JavascriptDon/Social-Media-Blocks-Extension/tree/master-branch) — full Vite development environment for building the extension
+
+All development happens on master, and production‑ready extension files are built into the dist/ folder.
 
 
-## 🛠️ Setup
+##  📁 Contents 
 
-```
-npm install
-```
+The main branch includes only the essential extension files:
 
-### Compiles and hot-reloads for development
-```
-npm run dev
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Locally preview production build
-```
-npm run preview 
-```
-
-### Creates necessary build files / assets for building the Chrome extension
-```
-npm run build-extension
-```
+- popup.html
+- popup.js
+- manifest.json
+- assets (folder)
 
 ## 👨‍💻 Contributing
 
