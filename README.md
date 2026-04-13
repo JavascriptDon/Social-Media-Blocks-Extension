@@ -1,10 +1,11 @@
-Social Media Blocks (2.0.0)
+Social Media Blocks (2.1.0)
 === 
 
 - This is a Google Chrome Extension which blocks social media sites like Twitter: Facebook, Instagram, LinkedIn, WhatsApp, Reddit etc..
 - It was initally created from this little snippet found here on [codepen](https://codepen.io/nhatanh17/full/VwwVmLK).
 
-![404](https://user-images.githubusercontent.com/101202952/180646836-c7affe54-7709-43b3-bb22-b1c3ed708897.gif)
+![404](https://github.com/user-attachments/assets/206e5d08-06e5-484c-9927-6f3c8b526c25)
+
 
 ## 👇 Prerequisites
 Built with Vite and requires Node.js 18+.
