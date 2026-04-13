@@ -125,6 +125,7 @@ a:visited {
   z-index: 69;
   height: 2rem;
   width: 2rem;
+  margin-top: 10px;
   border: none;
   transition: transform 0.3s ease-in-out;
 }

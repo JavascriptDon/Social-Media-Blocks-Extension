@@ -33,7 +33,7 @@ export default Object.freeze({
       </button>
       </div>
       <div class="modal-content">
-      <p>Social Media Block Features Now Available!</p>
+      <p>Social Media Block Is Now Available!</p>
       </div>
       <div class="modal-icons">
       <div class="container">

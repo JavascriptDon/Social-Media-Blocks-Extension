@@ -3,14 +3,7 @@ import {
   generateSTYLING,
   searchForEmbeddedContent,
 } from './utils/utils';
-import {
-  config,
-} from './utils/constants';
-import {
-  initializeExtensionVersionNumber,
-} from './utils/utils';
-
-import { renderSettings, loadSettings } from './settings/settings';
+import { loadSettings } from './settings/settings';
 
 const BLOCKED_HOSTS = [
   'youtube',
@@ -28,22 +21,33 @@ const BLOCKED_HOSTS = [
 ];
 
 async function blockSocialMediaSites(): Promise<void> {
-  const hostname: string = new URL(window.location.href).hostname
-    .replace('.com', '')
-    .replace('www.', '')
+  const rawHostname: string = new URL(window.location.href).hostname
+    .replace(/^www\./i, '')
     .toLowerCase();
 
-  if (!BLOCKED_HOSTS.includes(hostname)) {
+  const strippedHostname = rawHostname.replace('.com', '');
+
+  const isBuiltIn = BLOCKED_HOSTS.includes(strippedHostname);
+
+  const settings = await loadSettings();
+
+  const isCustom =
+    Array.isArray(settings.customSites) &&
+    settings.customSites.some(
+      (site) => rawHostname === site || rawHostname.endsWith('.' + site)
+    );
+
+  if (!isBuiltIn && !isCustom) {
     searchForEmbeddedContent();
     return;
   }
 
-  const settings = await loadSettings();
-
   if (!settings.masterEnabled) return;
 
-  const siteKey = hostname.replace('web.', '');
-  if (settings[siteKey] === false) return;
+  if (isBuiltIn && !isCustom) {
+    const siteKey = strippedHostname.replace('web.', '');
+    if (settings[siteKey] === false) return;
+  }
 
   if (settings.scheduleEnabled) {
     const now = new Date();
@@ -60,54 +64,7 @@ async function blockSocialMediaSites(): Promise<void> {
   }
 
   generateSTYLING();
-  document.body.innerHTML = generateHTML(hostname.toUpperCase());
+  document.body.innerHTML = generateHTML(rawHostname.toUpperCase());
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-  initializeExtensionVersionNumber();
-  const [
-    advancedToggle,
-    extensionElement,
-    advancedSettings,
-    extensionAcknowledgements,
-  ]: Array<HTMLElement> = [
-    <HTMLElement>document.getElementById('settingsToggle'),
-    <HTMLElement>document.getElementById('extension'),
-    <HTMLElement>document.getElementById('settingsDialog'),
-    <HTMLElement>document.getElementById('extension-acknowledgements'),
-  ];
-  advancedToggle!.addEventListener('click', () => {
-    if (config.toggleSettings) {
-      extensionElement!.classList.add('animate__animated', 'animate__fadeInRight');
-      extensionAcknowledgements!.classList.add('animate__animated', 'animate__fadeInLeft');
-      extensionElement!.style.setProperty('z-index', '3');
-      advancedSettings!.classList.add('animate__animated', 'animate__fadeOutRight');
-      advancedSettings!.style.transform = 'scale(1.1)';
-      advancedSettings!.style.pointerEvents = 'none';
-      advancedSettings!.style.opacity = '0';
-      advancedToggle!.innerHTML = config.showSettingsGearIcon;
-      config.toggleSettings = false;
-    } else {
-      extensionElement!.classList.add('animate__animated', 'animate__fadeOutRight');
-      extensionAcknowledgements!.classList.add('animate__animated', 'animate__fadeOutLeft');
-      advancedSettings!.classList.add('animate__animated', 'animate__fadeInLeft');
-      setTimeout( () => {
-        extensionElement!.style.setProperty('z-index', '-1');
-      }, 1000);
-      advancedSettings!.style.transform = 'scale(1)';
-      advancedSettings!.style.pointerEvents = 'auto';
-      advancedSettings!.style.opacity = '1';
-      advancedToggle!.innerHTML = config.hideSettingsGearIcon;
-      config.toggleSettings = true;
-    }
-    advancedSettings!.addEventListener('animationend', () => {
-      advancedSettings!.className = '';
-      extensionElement!.className = ''
-      extensionAcknowledgements!.className = '';
-    });
-  });
-
-  renderSettings();
-});
 
 blockSocialMediaSites();

@@ -13,7 +13,8 @@ export interface SmbSettings {
   scheduleEnd: string;
   allowanceEnabled: boolean;
   allowanceMinutes: number;
-  [key: string]: boolean | string | number;
+  customSites: string[];
+  [key: string]: boolean | string | number | string[];
 }
 
 export const SITES: SiteDefinition[] = [
@@ -37,28 +38,55 @@ function defaultSettings(): SmbSettings {
     scheduleEnd: '17:00',
     allowanceEnabled: false,
     allowanceMinutes: 15,
+    customSites: [],
   };
   SITES.forEach((s) => { d[s.key] = true; });
   return d;
 }
 
+function hasChromeStorage(): boolean {
+  return typeof chrome !== 'undefined' && !!chrome.storage?.local;
+}
+
 export function loadSettings(): Promise<SmbSettings> {
+  if (!hasChromeStorage()) {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const saved = raw ? (JSON.parse(raw) as SmbSettings) : undefined;
+      return Promise.resolve(saved ? { ...defaultSettings(), ...saved } : defaultSettings());
+    } catch {
+      return Promise.resolve(defaultSettings());
+    }
+  }
   return new Promise((resolve) => {
     chrome.storage.local.get(STORAGE_KEY, (result) => {
       const saved = result[STORAGE_KEY] as SmbSettings | undefined;
-      if (saved) {
-        resolve({ ...defaultSettings(), ...saved });
-      } else {
-        resolve(defaultSettings());
-      }
+      resolve(saved ? { ...defaultSettings(), ...saved } : defaultSettings());
     });
   });
 }
 
 export function saveSettings(s: SmbSettings): Promise<void> {
+  if (!hasChromeStorage()) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {}
+    return Promise.resolve();
+  }
   return new Promise((resolve) => {
     chrome.storage.local.set({ [STORAGE_KEY]: s }, resolve);
   });
+}
+
+function parseHostname(input: string): string | null {
+  let raw = input.trim();
+  if (!raw) return null;
+  if (!/^https?:\/\//i.test(raw)) raw = 'https://' + raw;
+  try {
+    const host = new URL(raw).hostname.replace(/^www\./i, '').toLowerCase();
+    if (!host || !host.includes('.')) return null;
+    return host;
+  } catch {
+    return null;
+  }
 }
 
 function createToggleRow(
@@ -125,6 +153,43 @@ function createTimeInput(id: string, value: string, labelText: string): HTMLDivE
   wrap.appendChild(lbl);
   wrap.appendChild(inp);
   return wrap;
+}
+
+function buildCustomSitesList(
+  customSites: string[],
+  listEl: HTMLUListElement
+): void {
+  listEl.innerHTML = '';
+  if (customSites.length === 0) {
+    const empty = document.createElement('li');
+    empty.className = 'smb-custom-empty';
+    empty.textContent = 'No custom sites added yet.';
+    listEl.appendChild(empty);
+    return;
+  }
+  customSites.forEach((site) => {
+    const li = document.createElement('li');
+    li.className = 'smb-custom-item';
+
+    const name = document.createElement('span');
+    name.className = 'smb-custom-name';
+    name.textContent = site;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'smb-remove-btn';
+    removeBtn.title = `Remove ${site}`;
+    removeBtn.textContent = '×';
+    removeBtn.addEventListener('click', () => {
+      loadSettings().then((cur) => {
+        cur.customSites = cur.customSites.filter((s) => s !== site);
+        saveSettings(cur).then(() => buildCustomSitesList(cur.customSites, listEl));
+      });
+    });
+
+    li.appendChild(name);
+    li.appendChild(removeBtn);
+    listEl.appendChild(li);
+  });
 }
 
 export async function renderSettings(): Promise<void> {
@@ -214,7 +279,7 @@ export async function renderSettings(): Promise<void> {
   minutesRow.appendChild(minInput);
   container.appendChild(minutesRow);
 
-  /* ── Blocked sites ── */
+  /* ── Blocked sites (built-in) ── */
   container.appendChild(createSectionHead('Blocked sites'));
 
   siteList.id = 'smb-site-list';
@@ -255,4 +320,61 @@ export async function renderSettings(): Promise<void> {
   });
 
   container.appendChild(siteList);
+
+  /* ── Custom blocked sites ── */
+  container.appendChild(createSectionHead('Custom sites'));
+
+  const addRow = document.createElement('div');
+  addRow.className = 'smb-add-row';
+
+  const addInput = document.createElement('input');
+  addInput.type = 'text';
+  addInput.className = 'smb-add-input';
+  addInput.placeholder = 'Paste URL or domain…';
+  addInput.spellcheck = false;
+
+  const errorMsg = document.createElement('span');
+  errorMsg.className = 'smb-add-error';
+  errorMsg.style.display = 'none';
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'smb-add-btn';
+  addBtn.textContent = 'Add';
+
+  const customList = document.createElement('ul');
+  customList.className = 'smb-custom-list';
+  buildCustomSitesList(s.customSites, customList);
+
+  const doAdd = () => {
+    const hostname = parseHostname(addInput.value);
+    if (!hostname) {
+      errorMsg.textContent = 'Enter a valid URL or domain (e.g. example.com)';
+      errorMsg.style.display = 'block';
+      return;
+    }
+    errorMsg.style.display = 'none';
+    loadSettings().then((cur) => {
+      if (!cur.customSites.includes(hostname)) {
+        cur.customSites = [...cur.customSites, hostname];
+        saveSettings(cur).then(() => {
+          buildCustomSitesList(cur.customSites, customList);
+          addInput.value = '';
+        });
+      } else {
+        errorMsg.textContent = `${hostname} is already in the list.`;
+        errorMsg.style.display = 'block';
+      }
+    });
+  };
+
+  addBtn.addEventListener('click', doAdd);
+  addInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') doAdd();
+  });
+
+  addRow.appendChild(addInput);
+  addRow.appendChild(addBtn);
+  container.appendChild(addRow);
+  container.appendChild(errorMsg);
+  container.appendChild(customList);
 }
